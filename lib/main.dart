@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:login_register/bindings/add_cart_binding.dart';
 import 'package:login_register/bindings/auth_binding.dart';
-import 'package:login_register/controller/auth_controller.dart';
+import 'package:login_register/bindings/cart_display_binding.dart';
+import 'package:login_register/bindings/featured_products_binding.dart';
+import 'package:login_register/screens/cart_screen.dart';
 import 'package:login_register/screens/login_screen.dart';
-import 'package:login_register/screens/second_screen.dart';
+import 'package:login_register/screens/featured_products_screen.dart';
+import 'package:login_register/screens/product_detail_screen.dart';
 import 'package:login_register/screens/signup_scree.dart';
 import 'package:login_register/screens/splash_screen.dart';
 
@@ -20,10 +24,12 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       getPages: [
-        GetPage(name: "/", page: ()=>LoginScreen(), binding: AuthBinding()),
-        GetPage(name: "/second", page: ()=>SecondScrenn(), binding: AuthBinding()),
-        GetPage(name: "/register", page: ()=>SignupScreen(), binding: AuthBinding(),),
-        GetPage(name: "/splash", page: ()=>SplashScreen(), binding: AuthBinding(),),
+        GetPage(name: "/login", page: ()=>LoginScreen(), binding: AuthBinding()),
+        GetPage(name: "/second", page: ()=>FeaturedProductsScreen(), binding: FeaturedProductsBinding()),
+        GetPage(name: "/register", page: ()=>SignupScreen(), binding: AuthBinding()),
+        GetPage(name: "/detail", page: ()=>ProductDetailScreen(), binding: AddCartBinding(),),
+        GetPage(name: "/cart", page: ()=>CartScreen(), binding: CartDisplayBinding()),
+        GetPage(name: "/", page: ()=>SplashScreen()),
 
 
       ],

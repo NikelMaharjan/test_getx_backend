@@ -21,15 +21,15 @@ class AuthRequest{
       );
       final body = response.body;
       print("login response $body");
-      final parsed = jsonDecode(body);
+      final parsed = jsonDecode(body);   //do JSONDECODE in Base Request
       if(parsed["access_token"]==null){
-        throw Exception(
-            parsed["error"]?? "Could not login with credential provided");
+        throw Exception(parsed["error"]?? "Could not login with credential provided");    //all exception thrown will be catched by catch block
       }
       return parsed["access_token"];
     } catch (e) {
       print("login exception $e");
-      throw Exception("$e");
+      // throw Exception("$e");   //dont and no need to use throw here
+      return Future.error('$e');
     }
   }
 
@@ -56,7 +56,7 @@ class AuthRequest{
       final body = response.body;
       print("bodyyyyyy is $body");
       print("Signup response $body");
-      final parsed = jsonDecode(body);
+      final parsed = jsonDecode(body);  //do JSONDECODE in Base Request
       if (parsed["access_token"] == null) {
         throw Exception(
             parsed["error"] ?? "Could not Register with the credential provided");

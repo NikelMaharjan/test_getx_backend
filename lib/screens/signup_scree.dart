@@ -3,11 +3,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:login_register/controller/auth_controller.dart';
-import 'package:login_register/screens/second_screen.dart';
+import 'package:login_register/screens/featured_products_screen.dart';
+import 'package:login_register/widgets/custon_snackbar.dart';
 
 class SignupScreen extends StatelessWidget {
 
-  final TextEditingController nameController = TextEditingController();
+
   final TextEditingController emailController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController genderController = TextEditingController();
@@ -16,6 +17,8 @@ class SignupScreen extends StatelessWidget {
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController confirmPasswordController = TextEditingController();
   SignupScreen({Key key}) : super(key: key);
+
+  AuthController authController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +59,7 @@ class SignupScreen extends StatelessWidget {
   }
   Widget buildNameField() {
     return TextField(
-      controller: nameController,
+      controller: authController.nameController,
       keyboardType: TextInputType.emailAddress,
       decoration: InputDecoration(
           labelText: "Your Name",
@@ -65,7 +68,7 @@ class SignupScreen extends StatelessWidget {
   }
   Widget buildEmailField() {
     return TextField(
-      controller: emailController,
+      controller: authController.emailController,
       keyboardType: TextInputType.emailAddress,
       decoration: InputDecoration(
           labelText: "Your email",
@@ -75,7 +78,7 @@ class SignupScreen extends StatelessWidget {
 
   Widget buildPhoneField() {
     return TextField(
-      controller: phoneController,
+      controller: authController.phoneController,
       keyboardType: TextInputType.phone,
       decoration: InputDecoration(
           labelText: "Your phone",
@@ -85,7 +88,7 @@ class SignupScreen extends StatelessWidget {
 
   Widget buildAddressField() {
     return TextField(
-      controller: addressController,
+      controller: authController.addressController,
       decoration: InputDecoration(
           labelText: "Your address",
           border: OutlineInputBorder()),
@@ -94,7 +97,7 @@ class SignupScreen extends StatelessWidget {
 
   Widget buildGenderField() {
     return TextField(
-      controller: genderController,
+      controller: authController.genderController,
       decoration: InputDecoration(
           labelText: "Your gneder",
           border: OutlineInputBorder()),
@@ -105,7 +108,7 @@ class SignupScreen extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(top: 16),
       child: TextField(
-        controller: dobController,
+        controller: authController.dobController,
         keyboardType: TextInputType.phone,
         decoration: InputDecoration(
             labelText: "Your DOB",
@@ -117,7 +120,7 @@ class SignupScreen extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(top: 16),
       child: TextField(
-        controller: passwordController,
+        controller: authController.passwordController,
         decoration: InputDecoration(
             labelText: "password",
             border: OutlineInputBorder()),
@@ -128,7 +131,7 @@ class SignupScreen extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(top: 16),
       child: TextField(
-        controller: confirmPasswordController,
+        controller: authController.confirmPasswordController,
         decoration: InputDecoration(
             labelText: "confirm password",
             border: OutlineInputBorder()),
@@ -142,21 +145,12 @@ class SignupScreen extends StatelessWidget {
         child: GetBuilder<AuthController>(builder: (_){
           return  ElevatedButton(
             onPressed: _.busy ? null : () async {
-              final success = await _.register(
-                  nameController.text,
-                  phoneController.text,
-                  emailController.text,
-                  passwordController.text,
-                  confirmPasswordController.text,
-                  addressController.text,
-                  genderController.text,
-                  dobController.text,
-                  );
+              final success = await _.register();
               if (success){
-                Get.to(SecondScrenn());
+                Get.toNamed("/second");
               }
               else{
-                Get.snackbar("Error", _.errorMessage);
+                CustomSnackbar.showCusotmSnackBar(message: _.errorMessage);
               }
             },
             child: _.busy ? CircularProgressIndicator() : Text("Submit"),

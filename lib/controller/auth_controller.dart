@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:login_register/local/user_data_repository.dart';
 import 'package:login_register/local/user_repository.dart';
 import 'package:login_register/network_response/auth_request.dart';
@@ -11,6 +12,14 @@ class AuthController extends BaseViewModel {
   UserRepository _userRepository;
   SharedPreferences _sharedPreferences;
   UserDataRepository _userDataRepository;
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _genderController = TextEditingController();
+  final TextEditingController _dobController = TextEditingController();
+  final TextEditingController _addressController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmPasswordController = TextEditingController();
 
   @override
   void onInit() {
@@ -18,12 +27,23 @@ class AuthController extends BaseViewModel {
     initializeData();
   }
 
-  Future<bool> login(String email, String password) async {
-    print("email is $email and password is $password");
+  TextEditingController get nameController => _nameController;
+  TextEditingController get emailController => _emailController;
+  TextEditingController get phoneController => _phoneController;
+  TextEditingController get genderController => _genderController;
+  TextEditingController get dobController => _dobController;
+  TextEditingController get addressController => _addressController;
+  TextEditingController get passwordController => _passwordController;
+  TextEditingController get confirmPasswordController => _confirmPasswordController;
+
+  Future<bool> login() async {
     setBusy(true);
+    await Future.delayed(Duration(seconds: 5));
     try {
-      final token = await AuthRequest.login(email, password);
       setBusy(false);
+      final token = await AuthRequest.login(_emailController.text, _passwordController.text).catchError((error) {
+        print('Error occured. $error');   //no need to write network response mode doing this??
+      });
       return saveUserInstance(token);
     }
     catch (e) {
@@ -33,10 +53,18 @@ class AuthController extends BaseViewModel {
     }
   }
 
-  Future<bool> register(String name, String email, String phone, String address, String gender, String dob, String password, String confirmpassword) async {
+  Future<bool> register() async {
     setBusy(true);
     try {
-      String token = await AuthRequest.register(name, email, phone, address, gender, dob, password, confirmpassword);
+      String token = await AuthRequest.register(
+          _nameController.text,
+          _emailController.text,
+          _phoneController.text,
+          _addressController.text,
+          _genderController.text,
+          _dobController.text,
+          _passwordController.text,
+          _confirmPasswordController.text);
       setBusy(false);
       return saveUserInstance(token);
      // baseRequest.setDefaultHeaders({"Authorization": token});
@@ -49,9 +77,9 @@ class AuthController extends BaseViewModel {
 
   Future<bool> saveUserInstance(String token) async {
      _sharedPreferences = await SharedPreferences.getInstance();
-    UserRepository userRepository = UserRepository(prefs: _sharedPreferences);
+     _userRepository = UserRepository(prefs: _sharedPreferences);
     try{
-      await userRepository.login(token);
+      await _userRepository.login(token);
       return true;
     }
     catch(e){

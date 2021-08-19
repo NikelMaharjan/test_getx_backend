@@ -32,6 +32,8 @@ dependencies:
   get: any
   shared_preferences: ^2.0.6
   rxdart: any
+  flutter_html: any
+
 
 
 dev_dependencies:

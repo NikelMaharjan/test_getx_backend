@@ -14,7 +14,7 @@ class _BaseRequest extends BaseClient {
     _defaultHeaders = {..._defaultHeaders, ...?headers};
   }
   void clearHeaders() {
-    _defaultHeaders = {"Content-Type": "application/json", "Accept": "application/json"};
+    _defaultHeaders = {"Content-Type": "application/json"};
   }
 
   @override
@@ -25,7 +25,7 @@ class _BaseRequest extends BaseClient {
         headers: _mergedHeaders(headers), body: body, encoding: encoding);
     return response;
   }
-  
+
   @override
   Future<StreamedResponse> send(BaseRequest request) async {
     request..headers.addAll(_defaultHeaders);
@@ -39,14 +39,6 @@ class _BaseRequest extends BaseClient {
   }
 
   @override
-  Future<Response> patch(url,
-      {Map<String, String> headers, dynamic body, Encoding encoding}) async {
-    final response= await _httpClient.patch(url,
-        headers: _mergedHeaders(headers), body: body, encoding: encoding);
-
-    return response;
-  }
-  @override
   Future<Response> put(url,
       {Map<String, String> headers, dynamic body, Encoding encoding}) async {
     final response= await _httpClient.put(url,
@@ -58,12 +50,7 @@ class _BaseRequest extends BaseClient {
     final response= await _httpClient.head(url, headers: _mergedHeaders(headers));
     return response;
   }
-  @override
-  Future<Response> delete(Uri url,
-      {Map<String, String> headers, Object body, Encoding encoding}) async {
-    final response=  await _httpClient.delete(url, headers: _mergedHeaders(headers));
-    return response;
-  }
+
   Map<String, String> _mergedHeaders(Map<String, String> headers) =>
       {..._defaultHeaders, ...?headers};
 }

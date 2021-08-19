@@ -18,11 +18,11 @@ class UserRepository {
 
   login(String accessToken) async {
     print("Token is $accessToken");
-    await prefs.setBool(_IS_LOGGED_IN, true);
+    await prefs.setBool(_IS_LOGGED_IN, true);   //here directly check...if token arrived, isLoggedin is set to true
     await prefs.setString(_ACCESS_TOKEN, accessToken);
   }
 
-  Future<bool> isLoggedIn() async {
+  Future<bool> isLoggedIn() async {      //hereeee
     return prefs.containsKey(_IS_LOGGED_IN);
   }
 

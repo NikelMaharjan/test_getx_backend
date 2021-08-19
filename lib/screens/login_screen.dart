@@ -3,12 +3,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:login_register/controller/auth_controller.dart';
+import 'package:login_register/widgets/custon_snackbar.dart';
 
 
 class LoginScreen extends StatelessWidget {
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
+
    LoginScreen({Key key}) : super(key: key);
+
+  AuthController authController = Get.find();
+
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +46,7 @@ class LoginScreen extends StatelessWidget {
   }
   Widget buildEmailField() {
     return TextField(
-      controller: emailController,
+      controller: authController.emailController,
       keyboardType: TextInputType.emailAddress,
       decoration: InputDecoration(
           labelText: "Your email",
@@ -56,7 +59,7 @@ class LoginScreen extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(top: 16),
       child: TextField(
-        controller: passwordController,
+        controller: authController.passwordController,
         decoration: InputDecoration(
             labelText: "Your password",
             suffixIcon: IconButton(
@@ -74,12 +77,12 @@ class LoginScreen extends StatelessWidget {
       child: GetBuilder<AuthController>(builder: (_){
         return  ElevatedButton(
           onPressed: _.busy ? null : () async {
-            final success = await _.login(emailController.text, passwordController.text);
+            final success = await _.login();
             if (success){
               Get.toNamed("/second");
             }
             else{
-              Get.snackbar("Error", _.errorMessage);
+              CustomSnackbar.showCusotmSnackBar(message: _.errorMessage);
             }
           },
           child: _.busy ? CircularProgressIndicator() : Text("Submit"),
