@@ -27,6 +27,25 @@ class ProductsApi {
 
 
   }
+  static Future<NetworkResponseModel> getTopSalesProducts() async{
+
+    try{
+      final uri = Uri.parse(AppUrl.TOP_SALES);
+      final response = await baseRequest.get(uri);
+      final body = jsonDecode(response.body);
+      final productsresponse = body["topSales"];
+      print("List of top sales $body");
+      final list = FeaturedProductsModel.allResponse(productsresponse);
+      return NetworkResponseModel(status: true, data: list);
+    }
+
+    catch(e){
+      print("The featured products exception $e");
+      return NetworkResponseModel(status: false, message: "Error $e");
+    }
+
+
+  }
 
 
 }

@@ -5,6 +5,7 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
 import 'package:login_register/controller/cart_contorller.dart';
 import 'package:login_register/models/featured_products_model.dart';
+import 'package:login_register/widgets/custon_snackbar.dart';
 
 class ProductDetailScreen extends StatelessWidget {
    ProductDetailScreen({Key key}) : super(key: key);
@@ -33,7 +34,10 @@ class ProductDetailScreen extends StatelessWidget {
               Html(data: product.description),
               ElevatedButton(onPressed: (){
                 _cartAdd(product.id);
-              }, child: Text("Add to Cart"))
+              }, child: Text("Add to Cart")),
+              ElevatedButton(onPressed: (){
+                _viewCart();
+              }, child: Text("View Your Cart"))
             ],
           ),
         ),
@@ -43,6 +47,11 @@ class ProductDetailScreen extends StatelessWidget {
 
   void _cartAdd(id) {
     cartController.addToCart(id);
+    CustomSnackbar.showCusotmSnackBar(message: "Successfully added to cart");
+
+  }
+
+  void _viewCart() {
     Get.toNamed("/cart");
   }
 }

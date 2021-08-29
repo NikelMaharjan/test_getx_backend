@@ -12,23 +12,21 @@ class SplashScreen extends StatelessWidget {
 
 
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    UserDataRepository userDataRepository = UserDataRepository.instance;
     UserRepository repository = UserRepository(prefs: sharedPreferences);
 
+
    String token = await repository.getAccessToken();
-    //String token = UserDataRepository.instance.accessToken;
-   // userDataRepository.setAccessToken(token);
 
     print("Token isssss $token");
-
-    //setDefaultHeaders({"x-auth-token":token});
 
     baseRequest.setDefaultHeaders({"Authorization":"Bearer $token"});
 
     await Future.delayed(Duration(seconds: 3));
     bool isLoggedIn = await repository.isLoggedIn();
-    if(isLoggedIn){
-      Get.offNamed("/second");
+    if(token!=null){
+   Get.offNamed("/dashboard");
+    //Get.offNamed("/featuredProducts");
+     // Get.offNamed("/topSalesProduct");
     }
 
     else{

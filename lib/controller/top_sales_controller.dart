@@ -4,7 +4,7 @@ import 'package:login_register/core/base_view_model.dart';
 import 'package:login_register/models/network_response_model.dart';
 import 'package:login_register/network_response/products_request.dart';
 
-class FeaturedProductController extends BaseViewModel{
+class TopSalesController extends BaseViewModel{
 
   NetworkResponseModel _products;
   NetworkResponseModel get products => _products;
@@ -19,9 +19,10 @@ class FeaturedProductController extends BaseViewModel{
   Future<void> getAllProducts() async {
     setBusy(true);
     print("ok");
-    final response = await ProductsApi.getFeaturedProducts();
+    final response = await ProductsApi.getTopSalesProducts();
     _products = response;
     setBusy(false);
+    print("Nikel");
 
 
   }

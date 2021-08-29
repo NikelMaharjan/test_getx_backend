@@ -24,4 +24,11 @@ class CartDisplayController extends BaseViewModel{
     setBusy(false);
   }
 
+
+
+  Future<void> removeFromCart(id) async{
+   await CartRequest.removeFromCart(id);
+   update();
+  }
+
 }

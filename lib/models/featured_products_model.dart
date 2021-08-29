@@ -16,9 +16,9 @@ class FeaturedProductsModel {
   String createdAt;
   String updatedAt;
   String availability;
-  Null discount;
+  dynamic discount;
   String vendorId;
-  Null deletedAt;
+  dynamic deletedAt;
 
   FeaturedProductsModel(
       {this.id,

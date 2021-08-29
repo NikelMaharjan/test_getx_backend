@@ -45,5 +45,24 @@ class CartRequest{
 
   }
 
+  static Future<NetworkResponseModel> removeFromCart(int productId) async {
+
+    try{
+      final uri = Uri.parse(AppUrl.CART_ITEM_REMOVE);
+      final response = await baseRequest.post(
+        uri,
+        body: jsonEncode({"product_id": productId}),
+      );
+      final body = jsonDecode(response.body);
+      print("Remove from cart $body");
+      return NetworkResponseModel(status: true);
+    }
+
+    catch(e){
+      print("The remove from cart exception is $e");
+    }
+
+  }
+
 
 }

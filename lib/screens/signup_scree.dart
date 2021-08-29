@@ -3,19 +3,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:login_register/controller/auth_controller.dart';
-import 'package:login_register/screens/featured_products_screen.dart';
 import 'package:login_register/widgets/custon_snackbar.dart';
 
 class SignupScreen extends StatelessWidget {
 
-
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController phoneController = TextEditingController();
-  final TextEditingController genderController = TextEditingController();
-  final TextEditingController dobController = TextEditingController();
-  final TextEditingController addressController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
-  final TextEditingController confirmPasswordController = TextEditingController();
   SignupScreen({Key key}) : super(key: key);
 
   AuthController authController = Get.find();
